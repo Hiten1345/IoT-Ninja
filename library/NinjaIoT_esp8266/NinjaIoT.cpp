@@ -11,8 +11,8 @@ static void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 }
 
 void NinjaIoT::connect(const char* ssid, const char* password, const String& projectKey) {
-  // Default to WebSocket on iot-ninja.onrender.com at port 80
-  connect(ssid, password, projectKey, "iot-ninja.onrender.com", 80);
+  // Default to Secure WebSocket (WSS) on iot-ninja.onrender.com at port 443
+  connect(ssid, password, projectKey, "iot-ninja.onrender.com", 443);
 }
 
 void NinjaIoT::connect(const char* ssid, const char* password, const String& projectKey, const String& wsHost, int wsPort) {
@@ -31,12 +31,19 @@ void NinjaIoT::connect(const char* ssid, const char* password, const String& pro
   }
   Serial.println("\nWiFi connected!");
 
-  Serial.print("Connecting to WebSocket: ws://");
-  Serial.print(wsHost);
-  Serial.print(":");
-  Serial.println(wsPort);
-
-  webSocket.begin(wsHost, wsPort, "/");
+  if (wsPort == 443) {
+    Serial.print("Connecting to Secure WebSocket: wss://");
+    Serial.print(wsHost);
+    Serial.print(":");
+    Serial.println(wsPort);
+    webSocket.beginSSL(wsHost, wsPort, "/");
+  } else {
+    Serial.print("Connecting to WebSocket: ws://");
+    Serial.print(wsHost);
+    Serial.print(":");
+    Serial.println(wsPort);
+    webSocket.begin(wsHost, wsPort, "/");
+  }
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(3000);
 }
