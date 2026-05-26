@@ -11,8 +11,8 @@ static void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 }
 
 void NinjaIoT::connect(const char* ssid, const char* password, const String& projectKey) {
-  // Default to WebSocket on iot.roboninja.in at port 8080
-  connect(ssid, password, projectKey, "iot.roboninja.in", 8080);
+  // Default to WebSocket on iot-ninja.onrender.com at port 80
+  connect(ssid, password, projectKey, "iot-ninja.onrender.com", 80);
 }
 
 void NinjaIoT::connect(const char* ssid, const char* password, const String& projectKey, const String& wsHost, int wsPort) {
