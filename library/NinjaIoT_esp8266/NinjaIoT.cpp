@@ -36,13 +36,13 @@ void NinjaIoT::connect(const char* ssid, const char* password, const String& pro
     Serial.print(wsHost);
     Serial.print(":");
     Serial.println(wsPort);
-    webSocket.beginSSL(wsHost, wsPort, "/");
+    webSocket.beginSSL(wsHost.c_str(), wsPort, "/");
   } else {
     Serial.print("Connecting to WebSocket: ws://");
     Serial.print(wsHost);
     Serial.print(":");
     Serial.println(wsPort);
-    webSocket.begin(wsHost, wsPort, "/");
+    webSocket.begin(wsHost.c_str(), wsPort, "/");
   }
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(3000);
