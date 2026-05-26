@@ -30,7 +30,10 @@ if (!is_dir(DATA_DIR)) {
 }
 // Initialize admin-configurable settings if not present
 if (!file_exists(DATA_DIR . 'config.json')) {
-    file_put_contents(DATA_DIR . 'config.json', json_encode(['allow_self_registration' => true], JSON_PRETTY_PRINT));
+    file_put_contents(DATA_DIR . 'config.json', json_encode([
+        'allow_self_registration' => true,
+        'admin_secret_path' => 'admin1205'
+    ], JSON_PRETTY_PRINT));
 }
 
 require_once 'functions.php';

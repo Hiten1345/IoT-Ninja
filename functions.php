@@ -46,7 +46,7 @@ function save_app_config($new_config) {
 }
 
 function get_admin_page_url() {
-    return urlencode(get_app_config('admin_secret_path') ?? 'admin');
+    return urlencode(get_app_config('admin_secret_path') ?? 'admin1205');
 }
 
 function send_email($recipient_email, $subject, $body) {
