@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation & Examples - Ninja IoT</title>
+    <meta name="description" content="Step-by-step Arduino code examples for Ninja IoT. Learn how to connect your ESP8266 or ESP32 and control it from the cloud.">
+    <link rel="stylesheet" href="marketing-style.css">
+    <link rel="stylesheet" href="docs-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="docs-page">
+
+    <!-- NAVBAR -->
+    <nav class="navbar glass">
+        <a href="index.html" class="logo">Ninja<span>IoT</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="docs.html" class="nav-active">Tutorials</a></li>
+            <li><a href="#" onclick="openDownloadModal(event)">Libraries</a></li>
+            <li><a href="index.html#donate">Donate</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="https://iot.roboninja.in/login" class="btn btn-outline">Login</a>
+            <a href="https://iot.roboninja.in/register" class="btn btn-primary">Sign Up</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html#features" class="mobile-link">Features</a>
+        <a href="docs.html" class="mobile-link">Tutorials</a>
+        <button class="nav-link-btn mobile-link" onclick="openDownloadModal(); closeMobileNav()">Libraries</button>
+        <a href="index.html#donate" class="mobile-link">Donate</a>
+        <a href="index.html#about" class="mobile-link">About Us</a>
+        <div class="mobile-auth">
+            <a href="https://iot.roboninja.in/login" class="btn btn-outline">Login</a>
+            <a href="https://iot.roboninja.in/register" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+
+    <!-- DOCS LAYOUT -->
+    <div class="docs-layout">
+
+        <!-- Dark overlay for sidebar drawer (mobile only) -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+        <!-- Mobile toggle button -->
+        <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle topics menu">
+            <i class="fas fa-bars"></i>
+            <span>Browse Topics</span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
+        </button>
+
+        <!-- SIDEBAR -->
+        <aside class="docs-sidebar" id="tutorialSidebar">
+            <!-- Drawer header (mobile only) -->
+            <div class="sidebar-drawer-header">
+                <span>Topics</span>
+                <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close sidebar">&times;</button>
+            </div>
+            <div class="sidebar-nav-items" id="sidebarNavItems">
+                <h4 class="sidebar-topic">Getting Started</h4>
+                <button class="tab-btn active" onclick="switchTab(event,'setup')">Setup &amp; Connect</button>
+
+                <h4 class="sidebar-topic">Basic Examples</h4>
+                <button class="tab-btn" onclick="switchTab(event,'led')">Simple LED Control</button>
+                <button class="tab-btn" onclick="switchTab(event,'pwm')">LED Brightness (PWM)</button>
+                <button class="tab-btn" onclick="switchTab(event,'button')">Read Button State</button>
+
+                <h4 class="sidebar-topic">Advanced Examples</h4>
+                <button class="tab-btn" onclick="switchTab(event,'analog')">Analog Sensor</button>
+                <button class="tab-btn" onclick="switchTab(event,'dht11')">DHT11 Sensor</button>
+            </div>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <main class="docs-content">
+
+            <!-- SETUP TAB -->
+            <div id="setup" class="tab-content active">
+                <div class="tutorial-text">
+                    <h3>Getting Started</h3>
+                    <p>First, download the <code>NinjaIoT_esp32</code> or <code>NinjaIoT_esp8266</code> library.
+                        Add it via <em>Sketch &gt; Include Library &gt; Add .ZIP Library</em>.</p>
+                    <button onclick="openDownloadModal()" class="btn btn-primary" style="margin-top:10px;margin-bottom:16px"><i class="fas fa-download"></i> Download Library</button>
+                    <p>Then get your <strong>Project API Key</strong> from the Ninja IoT Dashboard.</p>
+                    <p><strong>Note:</strong> Starting from v2.0, Ninja IoT uses high-performance WebSockets for sub-millisecond bidirectional sync. Your board will automatically connect to the WebSocket server at port 8080. If running locally, you can specify your local server IP and port in the connect function as shown in the example code.</p>
+                </div>
+                <div class="code-window glass">
+                    <div class="window-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="window-title">Setup.ino</span>
+                    </div>
+                    <div class="window-body">
+                        <pre><code>#include &lt;NinjaIoT.h&gt;
+
+NinjaIoT iot;
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Connect to cloud WebSocket server (Default)
+  iot.connect("your-wifi-name", "your-wifi-pass", "Your_Project_API");
+  
+  // Or connect to a custom/local WebSocket server:
+  // iot.connect("your-wifi-name", "your-wifi-pass", "Your_Project_API", "192.168.1.100", 8080);
+}
+
+void loop() {
+  iot.ReadAll();  // Keep the WebSocket processing loop alive &amp; sync values
+  delay(50);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LED TAB -->
+            <div id="led" class="tab-content">
+                <div class="tutorial-text">
+                    <h3>Simple LED Control</h3>
+                    <p>Control a digital output pin directly from the cloud. In your dashboard, create a Switch Widget mapped to <code>D27</code>.</p>
+                    <p>The <code>iot.SyncOut("D27")</code> function automatically fetches the state of D27 from the server and writes it to GPIO 27.</p>
+                </div>
+                <div class="code-window glass">
+                    <div class="window-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="window-title">01_Simple_LED.ino</span>
+                    </div>
+                    <div class="window-body">
+                        <pre><code>#include &lt;NinjaIoT.h&gt;
+
+NinjaIoT iot;
+
+void setup() {
+  Serial.begin(115200);
+  iot.connect("wifi-name", "wifi-pass", "Your_Project_API");
+}
+
+void loop() {
+  // Control LED on GPIO27 according to server value (ON/OFF)
+  iot.SyncOut("D27");
+
+  delay(50);  // wait 50 milliseconds to respect rate limits
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PWM TAB -->
+            <div id="pwm" class="tab-content">
+                <div class="tutorial-text">
+                    <h3>LED Brightness Control (PWM)</h3>
+                    <p>You can seamlessly map a Slider Widget on your dashboard to an ESP's PWM output.</p>
+                    <p>Using <code>iot.SyncPWM("D14")</code> will read the slider value (0-255) from the cloud and adjust the brightness of the LED connected to GPIO 14.</p>
+                </div>
+                <div class="code-window glass">
+                    <div class="window-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="window-title">02_LED_Brightness_control.ino</span>
+                    </div>
+                    <div class="window-body">
+                        <pre><code>#include &lt;NinjaIoT.h&gt;
+
+NinjaIoT iot;
+
+void setup() {
+  Serial.begin(115200);
+  iot.connect("wifi-name", "wifi-pass", "Your_Project_API");
+}
+
+void loop() {
+  // Adjust PWM brightness on GPIO14 from server value (0-255)
+  iot.SyncPWM("D14");
+
+  delay(50);  // wait 50 milliseconds
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BUTTON TAB -->
+            <div id="button" class="tab-content">
+                <div class="tutorial-text">
+                    <h3>Read Pin State to Cloud</h3>
+                    <p>Need to read a physical button or a digital sensor? Map a Display Widget to <code>D26</code> on the dashboard.</p>
+                    <p>The <code>iot.SyncIN("D26")</code> function reads the digital state of GPIO 26 and instantly uploads it to your dashboard in real-time.</p>
+                </div>
+                <div class="code-window glass">
+                    <div class="window-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="window-title">03_Pin_State_to_cloud.ino</span>
+                    </div>
+                    <div class="window-body">
+                        <pre><code>#include &lt;NinjaIoT.h&gt;
+
+NinjaIoT iot;
+
+void setup() {
+  Serial.begin(115200);
+  iot.connect("wifi-name", "wifi-pass", "Your_Project_API");
+}
+
+void loop() {
+  // Read button state on GPIO26 and upload it to the cloud
+  iot.SyncIN("D26");
+
+  delay(50);  // wait 50 milliseconds
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALOG TAB -->
+            <div id="analog" class="tab-content">
+                <div class="tutorial-text">
+                    <h3>Read Analog Sensor to Cloud</h3>
+                    <p>Learn how to read an analog sensor (like a Soil Moisture sensor) and send its value to a custom variable in your Ninja IoT dashboard using <code>WriteVar</code>.</p>
+                    <p>Create a Gauge Widget mapped to the variable <code>SoilMoisture</code> to visualize this data.</p>
+                </div>
+                <div class="code-window glass">
+                    <div class="window-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="window-title">04_analogSensor_to_cloud.ino</span>
+                    </div>
+                    <div class="window-body">
+                        <pre><code>#include &lt;NinjaIoT.h&gt;
+
+NinjaIoT iot;
+
+int SoilMoisture = 0;
+
+void setup() {
+  Serial.begin(115200);
+  iot.connect("wifi-name", "wifi-pass", "Your_Project_API");
+}
+
+void loop() {
+  SoilMoisture = analogRead(36); // Read analog value from VP pin (GPIO36)
+  iot.WriteVar("SoilMoisture", SoilMoisture); // Send value to the cloud
+ 
+  delay(1500); // Wait 1.5 seconds before sending the next value
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DHT11 TAB -->
+            <div id="dht11" class="tab-content">
+                <div class="tutorial-text">
+                    <h3>DHT11 Temperature &amp; Humidity</h3>
+                    <p>Use the popular DHT sensor library by Adafruit to read temperature and humidity, then upload multiple variables at once to the cloud.</p>
+                    <p>Map these variables (<code>Temperature</code> and <code>Humidity</code>) to Gauge or Text Widgets on your dashboard.</p>
+                </div>
+                <div class="code-window glass">
+                    <div class="window-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="window-title">05_DHT11_to_cloud.ino</span>
+                    </div>
+                    <div class="window-body">
+                        <pre><code>#include &lt;NinjaIoT.h&gt;
+#include "DHT.h"
+
+NinjaIoT iot;
+
+#define DHTPIN 12   // connect DHT11 to GPIO12 (D12)
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(115200);
+  iot.connect("wifi-name", "wifi-pass", "Your_Project_API");
+  dht.begin();
+}
+
+void loop() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+ 
+  iot.WriteVar("Temperature", t);
+  iot.WriteVar("Humidity", h);
+ 
+  delay(1500); // Respect rate limits
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div><!-- end docs-layout -->
+
+    <!-- DOWNLOAD MODAL -->
+    <div id="downloadModal" class="modal-overlay">
+        <div class="modal-content glass">
+            <span class="close-btn" onclick="closeDownloadModal()">&times;</span>
+            <h3 style="font-size:1.8rem;margin-bottom:0.8rem;font-family:'Outfit',sans-serif">Select Your <span class="gradient-text">Board</span></h3>
+            <p style="color:var(--text-muted);margin-bottom:1.8rem;font-size:1rem">Choose your microcontroller to download the specific Ninja IoT library.</p>
+            <div class="board-options">
+                <a href="Arduino Libraries/NinjaIoT_esp8266.zip" class="board-card" download>
+                    <i class="fas fa-microchip" style="font-size:3rem;color:var(--primary);margin-bottom:0.8rem"></i>
+                    <h4>ESP8266</h4>
+                    <p>NodeMCU, Wemos D1, etc.</p>
+                </a>
+                <a href="Arduino Libraries/NinjaIoT_esp32.zip" class="board-card" download>
+                    <i class="fas fa-microchip" style="font-size:3rem;color:var(--accent);margin-bottom:0.8rem"></i>
+                    <h4>ESP32</h4>
+                    <p>ESP32 DevKit, etc.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── Syntax Highlighting ──
+        document.addEventListener("DOMContentLoaded", function () {
+            const codeBlocks = document.querySelectorAll('.window-body pre code');
+            codeBlocks.forEach(block => {
+                let code = block.innerHTML;
+                code = code.replace(/(\/\/.*)/g, '§COM§$1§END§');
+                code = code.replace(/"(.*?)"/g, '§STR§"$1"§END§');
+                code = code.replace(/(&lt;.*?&gt;)/g, '§INC§$1§END§');
+                code = code.replace(/(#include|#define)/g, '§PRE§$1§END§');
+                code = code.replace(/\b(void|int|float|String|bool)\b/g, '§TYP§$1§END§');
+                code = code.replace(/\b(setup|loop|begin|connect|SyncOut|SyncIN|SyncPWM|WriteVar|analogRead|delay|readHumidity|readTemperature|ReadAll)\b(?=\()/g, '§FUN§$1§END§');
+                code = code.replace(/\b(Serial|NinjaIoT|DHT)\b/g, '§OBJ§$1§END§');
+                code = code.replace(/§COM§(.*?)§END§/g, '<span style="color:#95a5a6">$1</span>');
+                code = code.replace(/§STR§(.*?)§END§/g, '<span style="color:#005c5f">$1</span>');
+                code = code.replace(/§INC§(.*?)§END§/g, '<span style="color:#00979c">$1</span>');
+                code = code.replace(/§PRE§(.*?)§END§/g, '<span style="color:#5e6d03">$1</span>');
+                code = code.replace(/§TYP§(.*?)§END§/g, '<span style="color:#00979c">$1</span>');
+                code = code.replace(/§FUN§(.*?)§END§/g, '<span style="color:#d35400">$1</span>');
+                code = code.replace(/§OBJ§(.*?)§END§/g, '<span style="color:#d35400">$1</span>');
+                const lines = code.split('\n');
+                let numberedCode = '<table class="code-table"><tbody>';
+                lines.forEach((line, index) => {
+                    if (index === lines.length - 1 && line.trim() === '') return;
+                    numberedCode += `<tr><td class="line-number">${index + 1}</td><td class="line-content">${line}</td></tr>`;
+                });
+                numberedCode += '</tbody></table>';
+                block.innerHTML = numberedCode;
+            });
+        });
+
+        // ── Tab Switching ──
+        function switchTab(evt, tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+            if (window.innerWidth <= 900) closeSidebar();
+        }
+
+        // ── Sidebar Drawer ──
+        function toggleSidebar() {
+            const sidebar = document.getElementById('tutorialSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const toggle  = document.getElementById('sidebarToggle');
+            const isOpen  = sidebar.classList.toggle('open');
+            overlay.classList.toggle('open', isOpen);
+            toggle.classList.toggle('open', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+        function closeSidebar() {
+            document.getElementById('tutorialSidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('open');
+            document.getElementById('sidebarToggle').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // ── Download Modal ──
+        function openDownloadModal(evt) {
+            if (evt) evt.preventDefault();
+            document.getElementById('downloadModal').classList.add('active');
+        }
+        function closeDownloadModal() {
+            document.getElementById('downloadModal').classList.remove('active');
+        }
+        window.addEventListener('click', function (e) {
+            if (e.target === document.getElementById('downloadModal')) closeDownloadModal();
+        });
+
+        // ── Hamburger ──
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        function closeMobileNav() {
+            hamburger.classList.remove('open');
+            mobileNav.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
+        hamburger.addEventListener('click', function () {
+            const isOpen = mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('open', isOpen);
+            hamburger.setAttribute('aria-expanded', isOpen);
+        });
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            if (link.tagName === 'A') link.addEventListener('click', closeMobileNav);
+        });
+    </script>
+
+</body>
+</html>

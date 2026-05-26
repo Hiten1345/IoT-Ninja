@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja IoT - Next Gen IoT Platform for Makers & Students</title>
+    <meta name="description" content="Ninja IoT is the ultimate ESP8266 & ESP32 cloud platform for makers and engineering students. One-click setup, logic automation, and automatic APIs.">
+    <link rel="stylesheet" href="marketing-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar glass">
+        <div class="logo">Ninja<span>IoT</span></div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="docs.html">Tutorials</a></li>
+            <li><a href="#" onclick="openDownloadModal(event)">Libraries</a></li>
+            <li><a href="#donate">Donate</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="https://iot.roboninja.in/login" class="btn btn-outline">Login</a>
+            <a href="https://iot.roboninja.in/register" class="btn btn-primary">Sign Up</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
+        <a href="#features" class="mobile-link">Features</a>
+        <a href="docs.html" class="mobile-link">Tutorials</a>
+        <button class="nav-link-btn mobile-link" onclick="openDownloadModal(); closeMobileNav()">Libraries</button>
+        <a href="#donate" class="mobile-link">Donate</a>
+        <a href="#about" class="mobile-link">About Us</a>
+        <div class="mobile-auth">
+            <a href="https://iot.roboninja.in/login" class="btn btn-outline">Login</a>
+            <a href="https://iot.roboninja.in/register" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Connect. Control. <span class="gradient-text">Conquer.</span></h1>
+            <p>Specially made for educational purposes, Ninja IoT is the ultimate central hub for your ESP8266 and
+                ESP32 projects. Perfect for Makers and Engineering students.</p>
+            <div class="cta-group">
+                <a href="https://iot.roboninja.in/register" class="btn btn-primary btn-lg">Get Started Free</a>
+                <a href="docs.html" class="btn btn-outline btn-lg">View Documentation</a>
+                <button onclick="openDownloadModal()" class="btn btn-outline btn-lg"><i class="fas fa-download"></i> Download Libraries</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="ninjaiot_hero_light.png" alt="Ninja IoT Platform Interface">
+            <div class="glow-bg"></div>
+        </div>
+    </header>
+
+    <!-- FEATURES -->
+    <section id="features" class="section">
+        <h2 class="section-title">Why Choose <span class="gradient-text">Ninja IoT?</span></h2>
+        <div class="main-features">
+
+            <!-- Feature 1 -->
+            <div class="feature-split">
+                <div class="feature-text">
+                    <h3>One-Click <span style="color:var(--primary)">Setup</span></h3>
+                    <p>Build your custom IoT control panel instantly. Whether it's a switch, a slider, or a sensor
+                        readout, our drag-and-drop one-click setup gets your dashboard ready in seconds—no frontend
+                        code required.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="feature_setup.png" alt="One Click Setup Dashboard">
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-split" style="flex-direction:row-reverse">
+                <div class="feature-text">
+                    <h3>Logic &amp; <span style="color:var(--accent)">Events</span></h3>
+                    <p>Automate your entire project visually. Create powerful if-then rules, loops, and actions like
+                        sending emergency Emails or triggering other devices using our intuitive block-based logic
+                        interface. Perfect for educational learning and complex systems alike.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="feature_logic.png" alt="Logic and Events Blocks">
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-split">
+                <div class="feature-text">
+                    <h3>Automatic <span style="color:var(--primary)">APIs</span></h3>
+                    <p>Read and write data programmatically from anywhere. Every project automatically generates
+                        structured API endpoints for writing values, fetching history, and seamlessly integrating
+                        with third-party web services.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="feature_api.png" alt="API Endpoints">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TUTORIALS CTA -->
+    <section id="tutorials" class="section section-dark">
+        <h2 class="section-title">Documentation &amp; <span class="gradient-text">Examples</span></h2>
+        <p class="section-subtitle">Step-by-step Arduino code examples — from basic LED control to sensor data streaming.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:center;margin-top:0.5rem">
+            <a href="docs.html" class="btn btn-primary btn-lg"><i class="fas fa-book-open" style="margin-right:0.5rem"></i>Open Documentation</a>
+            <button onclick="openDownloadModal()" class="btn btn-outline btn-lg"><i class="fas fa-download" style="margin-right:0.5rem"></i>Download Libraries</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:center;margin-top:3rem">
+            <div class="glass" style="padding:1.5rem 2rem;text-align:center;flex:1;min-width:180px;max-width:220px">
+                <i class="fas fa-bolt" style="font-size:2rem;color:var(--primary);margin-bottom:0.8rem;display:block"></i>
+                <h4 style="font-family:'Outfit',sans-serif;margin-bottom:0.4rem">Quick Setup</h4>
+                <p style="color:var(--text-muted);font-size:0.9rem">Connect your ESP in under 5 minutes</p>
+            </div>
+            <div class="glass" style="padding:1.5rem 2rem;text-align:center;flex:1;min-width:180px;max-width:220px">
+                <i class="fas fa-code" style="font-size:2rem;color:var(--accent);margin-bottom:0.8rem;display:block"></i>
+                <h4 style="font-family:'Outfit',sans-serif;margin-bottom:0.4rem">Code Examples</h4>
+                <p style="color:var(--text-muted);font-size:0.9rem">LED, PWM, sensors &amp; more</p>
+            </div>
+            <div class="glass" style="padding:1.5rem 2rem;text-align:center;flex:1;min-width:180px;max-width:220px">
+                <i class="fas fa-microchip" style="font-size:2rem;color:var(--primary);margin-bottom:0.8rem;display:block"></i>
+                <h4 style="font-family:'Outfit',sans-serif;margin-bottom:0.4rem">ESP32 &amp; ESP8266</h4>
+                <p style="color:var(--text-muted);font-size:0.9rem">Libraries for both boards</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DONATE -->
+    <section id="donate" class="section">
+        <div class="donate-container glass">
+            <div class="donate-content">
+                <h2>Support <span class="gradient-text">Open Innovation</span></h2>
+                <p>Ninja IoT is run by passionate developers. Your contributions help us keep the servers running,
+                    develop new features, and maintain our open-source libraries.</p>
+                <div class="donation-tiers">
+                    <button class="donate-btn" onclick="this.classList.toggle('active')">$5 <span>Coffee</span></button>
+                    <button class="donate-btn active" onclick="this.classList.toggle('active')">$15 <span>Server</span></button>
+                    <button class="donate-btn" onclick="this.classList.toggle('active')">$50 <span>Sponsor</span></button>
+                </div>
+                <button class="btn btn-primary" style="margin-top:1.5rem;width:100%;max-width:280px;padding:14px">Donate Now via PayPal</button>
+            </div>
+            <div class="donate-image">
+                <i class="fas fa-heart" style="font-size:9rem;color:var(--accent);filter:drop-shadow(0 0 20px var(--accent))"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section section-dark">
+        <h2 class="section-title">About <span class="gradient-text">Us</span></h2>
+        <div style="max-width:800px;margin:0 auto;text-align:center">
+            <p style="font-size:1.1rem;line-height:1.9;color:var(--text-muted)">
+                We are <strong>RoboNinja</strong>. Ninja IoT is specially made for educational purposes, providing a
+                frictionless entry into the Internet of Things. Born from the frustration of over-complicated cloud
+                platforms, our goal is to provide the perfect balance between absolute simplicity and boundless
+                capabilities.
+                <br><br>
+                Perfect for Makers and Engineering students, from custom ESP integrations to powerful analytics—we
+                build the tools so you can build the future.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Ninja<span>IoT</span></div>
+            <p>&copy; 2026 Ninja IoT by RoboNinja. All rights reserved.</p>
+            <div class="socials">
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- DOWNLOAD MODAL -->
+    <div id="downloadModal" class="modal-overlay">
+        <div class="modal-content glass">
+            <span class="close-btn" onclick="closeDownloadModal()">&times;</span>
+            <h3 style="font-size:1.8rem;margin-bottom:0.8rem;font-family:'Outfit',sans-serif">Select Your <span class="gradient-text">Board</span></h3>
+            <p style="color:var(--text-muted);margin-bottom:1.8rem;font-size:1rem">Choose your microcontroller to download the specific Ninja IoT library.</p>
+            <div class="board-options">
+                <a href="Arduino Libraries/NinjaIoT_esp8266.zip" class="board-card" download>
+                    <i class="fas fa-microchip" style="font-size:3rem;color:var(--primary);margin-bottom:0.8rem"></i>
+                    <h4>ESP8266</h4>
+                    <p>NodeMCU, Wemos D1, etc.</p>
+                </a>
+                <a href="Arduino Libraries/NinjaIoT_esp32.zip" class="board-card" download>
+                    <i class="fas fa-microchip" style="font-size:3rem;color:var(--accent);margin-bottom:0.8rem"></i>
+                    <h4>ESP32</h4>
+                    <p>ESP32 DevKit, etc.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openDownloadModal(evt) {
+            if (evt) evt.preventDefault();
+            document.getElementById('downloadModal').classList.add('active');
+        }
+        function closeDownloadModal() {
+            document.getElementById('downloadModal').classList.remove('active');
+        }
+        window.addEventListener('click', function (event) {
+            if (event.target === document.getElementById('downloadModal')) closeDownloadModal();
+        });
+
+        // Hamburger
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        function closeMobileNav() {
+            hamburger.classList.remove('open');
+            mobileNav.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
+        hamburger.addEventListener('click', function () {
+            const isOpen = mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('open', isOpen);
+            hamburger.setAttribute('aria-expanded', isOpen);
+        });
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            if (link.tagName === 'A') link.addEventListener('click', closeMobileNav);
+        });
+    </script>
+</body>
+
+</html>

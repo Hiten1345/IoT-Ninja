@@ -1,0 +1,12 @@
+{
+  "name": "ninja-iot-websocket-server",
+  "version": "1.0.0",
+  "description": "WebSocket Server for Ninja IoT Real-time Communication",
+  "main": "server-ws.js",
+  "scripts": {
+    "start": "node server-ws.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

@@ -1,0 +1,35 @@
+# Set Default Index Page
+DirectoryIndex index.html index.php
+
+# Disable Directory Indexing
+Options -Indexes
+
+# Enable URL Rewriting
+RewriteEngine On
+
+# --- Proxy WebSocket & Node.js Update Endpoints to Port 8080 ---
+RewriteCond %{HTTP:Upgrade} =websocket [NC]
+RewriteRule ^(.*)$ ws://127.0.0.1:8080/$1 [P,L]
+RewriteRule ^update$ http://127.0.0.1:8080/update [P,L]
+
+# Force HTTPS (except for local loopback requests and proxy connections)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{REMOTE_ADDR} !=127.0.0.1
+RewriteCond %{REMOTE_ADDR} !=::1
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Set base directory (adjust if your app is in a subdirectory)
+# RewriteBase /
+
+# Don't rewrite if the file or directory exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite clean URLs to index.php with page parameter
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?page=$1 [L,QSA]
+
+# Handle URLs with additional parameters
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9_-]+)/(.*)$ index.php?page=$1&$2 [L,QSA]
