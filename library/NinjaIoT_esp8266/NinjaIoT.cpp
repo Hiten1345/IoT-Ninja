@@ -11,8 +11,8 @@ static void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 }
 
 void NinjaIoT::connect(const char* ssid, const char* password, const String& projectKey) {
-  // Default to Secure WebSocket (WSS) on iot-ninja.onrender.com at port 443
-  connect(ssid, password, projectKey, "iot-ninja.onrender.com", 443);
+  // Default to Secure WebSocket (WSS) on iot.beerobokids.com at port 443
+  connect(ssid, password, projectKey, "iot.beerobokids.com", 443);
 }
 
 void NinjaIoT::connect(const char* ssid, const char* password, const String& projectKey, const String& wsHost, int wsPort) {
